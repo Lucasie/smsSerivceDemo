@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: E:\JAVA\smsSerivce\src\com\blueview\MQTT\MqttClientDemo.java
+
