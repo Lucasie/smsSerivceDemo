@@ -108,6 +108,8 @@ public class DataParser {
             map = formatParser(sub);
         }else if ("2b".equals(type) && (sub.length() % 6 == 0)) { // 未知设备
             map = formatParser(sub);
+        }else if ("cd".equals(type) && (sub.length() % 6 == 0)) { // 未知设备
+            map = formatParser(sub);
         }
         return map;
     }

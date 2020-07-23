@@ -120,6 +120,14 @@ public class MqttClientDemo1 {
 //                            new SendChatPush().chatPush25(s1);
                        }
 
+                       //   门磁传感器
+                        if (parser.containsKey("21")){
+                            ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+                            String distance = parser.get("21");
+                            System.out.println(distance);
+
+                        }
+
                    }
                 }
 
