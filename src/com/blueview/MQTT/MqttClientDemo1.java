@@ -78,15 +78,49 @@ public class MqttClientDemo1 {
                        System.out.println("------------------------");
                        System.out.println("设备类型:" + dt.deviceType());
                        LinkedHashMap<String, String> parser = dt.parser(str);
+
 //                    // 网关节点信息组合
-                       String gatewayInfo = new BigInteger(parser.get("gateway"), 16).toString(10) + parser.get("adder");
-                       ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
-                       System.out.println("列表长度:" + user.size());
-                       if (user != null){
-                           for (String item : user) {
-                               System.out.println(item);
-                           }
+                       String gatewayInfo = new BigInteger(parser.get("gateway"), 16).toString(10) + "%";
+//                       ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+
+                       //   电流报警
+                       if (parser.containsKey("19")) {
+                           statCode = new BigInteger(parser.get("19"), 16).toString(10);
+                           status = (Double.valueOf(statCode)) / 10;
+//                           gateway = new BigInteger(parser.get("gateway"), 16).toString(10) + parser.get("adder");
+//                           System.out.println(gateway);
+                           ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+                           sendSms.gatewaySMS(user.get(0), user.get(1), parser.get("adder"), status);
                        }
+
+                       //   烟雾报警
+                       if (parser.containsKey("20")) {
+                           ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+                           new SendChatPush().chatPush20();
+                           sendSms.smockAlarm(user.get(0), user.get(1), parser.get("adder"));
+                       }
+
+                       //   温度报警
+                       if (parser.containsKey("1a")) {
+                           ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+                           String t = parser.get("1a").substring(2, 4);
+                           sendSms.tempAlarm(user.get(0), parser.get("adder"), user.get(1), t);
+//                            new SendChatPush().chatPush1a();
+                           System.out.println("温度值为:" + t);
+                       }
+
+                       //   倾斜传感器
+                       if (parser.containsKey("25")) {
+                           ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
+                           String t = parser.get("25").substring(2, 4);
+                           String s1 = new BigInteger(t, 16).toString(10);
+                           sendSms.tiltAlarm(user.get(0), parser.get("adder"), user.get(1), s1);
+//                            new SendChatPush().chatPush25(s1);
+                       }
+
+
+
+
                    }
                 }
 

@@ -33,13 +33,12 @@ public class GetUserInfo {
             name = rest.getString(1);
             phone = rest.getString(2);
             installAdder = rest.getString(3);
-//            map.put(name,phone);
-//            map.put("installAdder",installAdder);
             list.add(name);
             list.add(phone);
             list.add(installAdder);
         }
         return list;
-
     }
+
+
 }
