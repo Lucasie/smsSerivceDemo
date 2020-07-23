@@ -4,6 +4,7 @@ import com.blueview.JDBC.GetUserInfo;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.math.BigInteger;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +82,7 @@ public class MqttClientDemo1 {
 
 //                    // 网关节点信息组合
                        String gatewayInfo = new BigInteger(parser.get("gateway"), 16).toString(10) + "%";
+
 //                       ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
 
                        //   电流报警
@@ -103,7 +105,7 @@ public class MqttClientDemo1 {
                        //   温度报警
                        if (parser.containsKey("1a")) {
                            ArrayList<String> user = new GetUserInfo(gatewayInfo).getUser();
-                           String t = parser.get("1a").substring(2, 4);
+                           String t = new BigInteger(parser.get("1a").substring(2, 4),16).toString(10);
                            sendSms.tempAlarm(user.get(0), parser.get("adder"), user.get(1), t);
 //                            new SendChatPush().chatPush1a();
                            System.out.println("温度值为:" + t);
@@ -117,9 +119,6 @@ public class MqttClientDemo1 {
                            sendSms.tiltAlarm(user.get(0), parser.get("adder"), user.get(1), s1);
 //                            new SendChatPush().chatPush25(s1);
                        }
-
-
-
 
                    }
                 }
